@@ -1,4 +1,4 @@
-# Proyecto para Administrar productos 
+# Proyecto que permite simular la venta de productos 
 ## Desarrollado con React y Spring
 
 
@@ -9,8 +9,9 @@ Tecnologias implementadas de React y Spring
 
 ## Features
 
-- Permite agregar, actualizar y eliminar productos
-- Requiere ingreso de credenciales para realizar operaciones CRUD
+- Permite registrar un usuario
+- Requiere ingreso de credenciales para realizar compra de productos
+- Permite agregar o eliminar un productos
 
 
 ## Installation Fronted (mercadolf)
