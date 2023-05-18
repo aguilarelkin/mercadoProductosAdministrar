@@ -4,6 +4,7 @@ import com.mercado.app.mercadol.models.entity.Producto;
 import com.mercado.app.mercadol.models.service.IProductoService;
 
 import com.mercado.app.mercadol.models.service.IUploadService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
@@ -17,7 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
+//import javax.validation.Valid;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.*;

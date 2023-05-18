@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -16,16 +16,17 @@ import org.springframework.web.filter.CorsFilter;
 import java.util.Arrays;
 
 @Configuration
-@EnableResourceServer//configuraciones para el cliente
-public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+//@EnableMethodSecurity
+//@EnableResourceServer//configuraciones para el cliente
+public class ResourceServerConfig  {
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/v1/cliente/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/uploads/img/{nombreFoto:.+}").permitAll()
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/api/v1/cliente/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/uploads/img/{nombreFoto:.+}").permitAll()
 
                 //  .antMatchers(HttpMethod.GET, "/api/v1/uploads/img/{nombreFoto:.+}").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/img/**","/**","/images/**","/static/**", "/", "/home", "/create/**", "/home/page/**", "/du", "/dd", "/dt", "/dc").permitAll()
+                .requestMatchers("/img/**","/**","/images/**","/static/**", "/", "/home", "/create/**", "/home/page/**", "/du", "/dd", "/dt", "/dc").permitAll()
                 /* .antMatchers(HttpMethod.GET, "/api/v1/products").hasAnyRole("USER", "ADMIN")
                  .antMatchers(HttpMethod.GET, "/api/v1//product/{id}").hasRole("ADMIN")
                  .antMatchers(HttpMethod.GET, "/api/v1/product/p/{nombre}").hasRole("ADMIN")
@@ -34,6 +35,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                  .antMatchers(HttpMethod.DELETE, "/api/v1/product/d/{id}").hasRole("ADMIN") */
                 .anyRequest().authenticated()
                 .and().cors().configurationSource(corsConfigurationSource());
+        return http.build();
     }
 
     public CorsConfigurationSource corsConfigurationSource() {
