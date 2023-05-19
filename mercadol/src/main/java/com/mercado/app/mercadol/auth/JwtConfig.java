@@ -1,6 +1,6 @@
 package com.mercado.app.mercadol.auth;
 
-import com.nimbusds.jose.jwk.RSAKey;
+
 
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -49,7 +49,7 @@ public class JwtConfig {
             "XwIDAQAB\r\n" +
             "-----END PUBLIC KEY-----";
 
-    public static RSAKey generateRSAKey() {
+   /* public static RSAKey generateRSAKey() {
         try {
             KeyPairGenerator g = KeyPairGenerator.getInstance("RSA");
             g.initialize(2048);
@@ -63,4 +63,6 @@ public class JwtConfig {
             throw new RuntimeException("Problem generating the keys");
         }
     }
+
+    */
 }

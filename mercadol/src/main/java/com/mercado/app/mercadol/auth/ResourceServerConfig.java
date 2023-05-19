@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,14 +16,14 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
-@Configuration
-//@EnableMethodSecurity
+//@Configuration
 //@EnableResourceServer//configuraciones para el cliente
 public class ResourceServerConfig  {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/api/v1/cliente/**").permitAll()
+        http
+                .authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/api/v1/cliente/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/uploads/img/{nombreFoto:.+}").permitAll()
 
                 //  .antMatchers(HttpMethod.GET, "/api/v1/uploads/img/{nombreFoto:.+}").hasAnyRole("USER", "ADMIN")
@@ -33,8 +34,9 @@ public class ResourceServerConfig  {
                  .antMatchers(HttpMethod.POST, "/api/v1/product/c").hasRole("ADMIN")
                  .antMatchers(HttpMethod.PUT, "/api/v1/product/u/{id}").hasRole("ADMIN")
                  .antMatchers(HttpMethod.DELETE, "/api/v1/product/d/{id}").hasRole("ADMIN") */
-                .anyRequest().authenticated()
-                .and().cors().configurationSource(corsConfigurationSource());
+                .anyRequest().authenticated();
+               // .and().cors().configurationSource(corsConfigurationSource())
+               // .and().oauth2ResourceServer().jwt();
         return http.build();
     }
 

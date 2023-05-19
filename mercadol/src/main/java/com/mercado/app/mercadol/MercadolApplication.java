@@ -7,21 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
-public class MercadolApplication implements CommandLineRunner {
+public class MercadolApplication {
 
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MercadolApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		String password = "12345";
 
-		for (int i = 0; i <4; i++) {
-			System.out.println(passwordEncoder.encode(password));
-		}
-	}
 }

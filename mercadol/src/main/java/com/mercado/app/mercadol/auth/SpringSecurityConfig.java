@@ -17,8 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@EnableGlobalMethodSecurity(securedEnabled = true)
-@Configuration
+//@EnableGlobalMethodSecurity(securedEnabled = true)
+//@Configuration
 public class SpringSecurityConfig  {
 
     @Autowired

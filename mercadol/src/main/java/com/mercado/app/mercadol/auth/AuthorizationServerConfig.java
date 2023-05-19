@@ -1,6 +1,6 @@
 package com.mercado.app.mercadol.auth;
 
-import com.nimbusds.jose.jwk.JWKSet;
+/*import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
@@ -21,24 +21,16 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
-import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
-import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;*/
 
 import java.time.Duration;
 import java.util.UUID;
 
-@Configuration
-@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
+//@Configuration
+//@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class AuthorizationServerConfig  {
-
+/*
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -49,9 +41,11 @@ public class AuthorizationServerConfig  {
     @Autowired
     private InfoAdicionalToken infoAdicionalToken;
 
+ */
+    /*
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SecurityFilterChain securityASFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityAFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).oidc(Customizer.withDefaults());
         http.exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")))
@@ -96,6 +90,10 @@ public class AuthorizationServerConfig  {
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
     }
+
+
+     */
+    //anterior
     /*
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
