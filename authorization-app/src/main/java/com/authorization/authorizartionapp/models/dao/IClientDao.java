@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface IClientDao extends JpaRepository<Client, String> {
-                    //151 c3
+
     Optional<Client> findByClientId(String clientId);
 }

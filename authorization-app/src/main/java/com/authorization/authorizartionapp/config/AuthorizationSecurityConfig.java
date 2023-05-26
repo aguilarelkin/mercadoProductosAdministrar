@@ -1,5 +1,6 @@
 package com.authorization.authorizartionapp.config;
 
+import com.authorization.authorizartionapp.models.service.ClientServiceImpl;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -46,6 +47,9 @@ public class AuthorizationSecurityConfig {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ClientServiceImpl clientService;
+
     @Bean
     @Order(1)
     public SecurityFilterChain authSecurityFilterChain(HttpSecurity http)
@@ -62,7 +66,7 @@ public class AuthorizationSecurityConfig {
                         )
                 )
                 // Accept access tokens for User Info and/or Client Registration
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer:: jwt);
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
 
         return http.build();
     }
@@ -73,8 +77,8 @@ public class AuthorizationSecurityConfig {
             throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                       // .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
-                        .requestMatchers("/auth/**").permitAll()
+                        // .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
+                        .requestMatchers("/auth/**", "/client/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 // Form login handles the redirect to the login page from the
@@ -83,7 +87,7 @@ public class AuthorizationSecurityConfig {
         http
                 // ...
                 .csrf((csrf) -> csrf
-                        .ignoringRequestMatchers("/auth/**")
+                        .ignoringRequestMatchers("/auth/**", "/client/**")
                 );
 //http.csrf().ignoringRequestMatchers("/auth/**");
         return http.build();
@@ -99,7 +103,8 @@ public class AuthorizationSecurityConfig {
         return new InMemoryUserDetailsManager(userDetails);
     }*/
 
-    @Bean
+    //SE COMENTA POR CILENTSERVICEIMPL-CLIENT
+/*    @Bean
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("oidc-client")
@@ -116,22 +121,22 @@ public class AuthorizationSecurityConfig {
                 .build();
 
         return new InMemoryRegisteredClientRepository(oidcClient);
-    }
+    }*/
 
     //personalizar token
     @Bean
-    public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(){
+    public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer() {
         return context -> {
             Authentication authentication = context.getPrincipal();
-            if (context.getTokenType().getValue().equals("id_token")){
-                context.getClaims().claim("token_type","id_token");
+            if (context.getTokenType().getValue().equals("id_token")) {
+                context.getClaims().claim("token_type", "id_token");
             }
 
-            if (context.getTokenType().getValue().equals("access_token")){
-                context.getClaims().claim("token_type","access_token");
+            if (context.getTokenType().getValue().equals("access_token")) {
+                context.getClaims().claim("token_type", "access_token");
                 List<String> roles = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-                context.getClaims().claim("roless",roles);
-                context.getClaims().claim("email",authentication. getName());
+                context.getClaims().claim("roless", roles);
+                context.getClaims().claim("email", authentication.getName());
 
             }
         };
@@ -157,8 +162,7 @@ public class AuthorizationSecurityConfig {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
             keyPairGenerator.initialize(2048);
             keyPair = keyPairGenerator.generateKeyPair();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new IllegalStateException(ex);
         }
         return keyPair;
@@ -170,7 +174,7 @@ public class AuthorizationSecurityConfig {
     }
 
     @Bean
-    public JwtDecoder jwtDecoder(   JWKSource<SecurityContext> jwkSource) {
+    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
     }
 
