@@ -9,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @SpringBootApplication
 public class MercadolApplication {
 
-
+//1020 C4
 	public static void main(String[] args) {
 		SpringApplication.run(MercadolApplication.class, args);
 	}
