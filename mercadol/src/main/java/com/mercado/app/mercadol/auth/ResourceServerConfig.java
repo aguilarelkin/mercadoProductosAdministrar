@@ -32,20 +32,37 @@ public class ResourceServerConfig  {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/api/v1/cliente/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/v1/uploads/img/{nombreFoto:.+}").permitAll()
+                .authorizeHttpRequests(
+                        (authorize) -> authorize
+
+                               // .requestMatchers("/auth/**", "/client/**").permitAll()
+                                ///  .requestMatchers(HttpMethod.POST, "/api/v1/cliente/**").permitAll()
+                                ///  .requestMatchers(HttpMethod.GET, "/api/v1/uploads/img/{nombreFoto:.+}").permitAll()
+                                ///   .requestMatchers("/img/**","/**","/images/**","/static/**", "/", "/home", "/create/**", "/home/page/**", "/du", "/dd", "/dt", "/dc").permitAll()
+
+
+                                .anyRequest().authenticated()
+
+                )
+                .cors().configurationSource(corsConfigurationSource()).and()
+              ///  .requestMatchers(HttpMethod.POST, "/api/v1/cliente/**").permitAll()
+              ///  .requestMatchers(HttpMethod.GET, "/api/v1/uploads/img/{nombreFoto:.+}").permitAll()
 
                 //  .antMatchers(HttpMethod.GET, "/api/v1/uploads/img/{nombreFoto:.+}").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/img/**","/**","/images/**","/static/**", "/", "/home", "/create/**", "/home/page/**", "/du", "/dd", "/dt", "/dc").permitAll()
+
+             ///   .requestMatchers("/img/**","/**","/images/**","/static/**", "/", "/home", "/create/**", "/home/page/**", "/du", "/dd", "/dt", "/dc").permitAll()
+
                 /* .antMatchers(HttpMethod.GET, "/api/v1/products").hasAnyRole("USER", "ADMIN")
                  .antMatchers(HttpMethod.GET, "/api/v1//product/{id}").hasRole("ADMIN")
                  .antMatchers(HttpMethod.GET, "/api/v1/product/p/{nombre}").hasRole("ADMIN")
                  .antMatchers(HttpMethod.POST, "/api/v1/product/c").hasRole("ADMIN")
                  .antMatchers(HttpMethod.PUT, "/api/v1/product/u/{id}").hasRole("ADMIN")
                  .antMatchers(HttpMethod.DELETE, "/api/v1/product/d/{id}").hasRole("ADMIN") */
-                .anyRequest().authenticated()
+
+              ///  .anyRequest().authenticated()
+
                // .and().cors().configurationSource(corsConfigurationSource())
-               .and().oauth2ResourceServer(oauth2 -> oauth2
+               .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.decoder(JwtDecoders.fromIssuerLocation(issuerUri))));
         return http.build();
     }

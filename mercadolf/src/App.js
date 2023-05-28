@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 
 import { isAutenticated, hasRole } from './auth/auth.authenticated';
 import { Protected } from './interceptor/Protected';
+import Authorized from './components/Auth';
+
 
 function App() {
   const [user, setUser] = useState("");
@@ -26,38 +28,43 @@ function App() {
 
 
   return (
-<>
-    <HashRouter>
-      {//console.log(" ad " + sesion)
-      }
-      {//console.log(roles.includes('ROLE_ADMIN', 'ROLE_USER'))
-      }
-      < Routes>
-        <Route path='/' element={
-          <Protected sesion={sesion} redirectTo="/">
-            <Login />
-          </Protected>
-        } />
+    <>
+      <HashRouter>
+        {//console.log(" ad " + sesion)
+        }
+        {//console.log(roles.includes('ROLE_ADMIN', 'ROLE_USER'))
+        }
+        < Routes>
+          <Route path='/authorized'  element={
+              <Authorized />
+          }
+          />
 
-        <Route path='/create/:dato' element={
-          <Protected sesion={sesion} user={['ROLE_ADMIN']} redirectTo="/">
-            <Create />
-          </Protected>} />
+          <Route path='/' element={
+            <Protected sesion={sesion} redirectTo="/">
+              <Login />
+            </Protected>
+          } />
 
-        <Route path='/home' element={
-          <Protected sesion={sesion} user={['ROLE_ADMIN', 'ROLE_USER']} redirectTo="/">
-            <Home />
-          </Protected>
-        } />
+          <Route path='/create/:dato' element={
+            <Protected sesion={sesion} user={['ROLE_ADMIN']} redirectTo="/">
+              <Create />
+            </Protected>} />
 
-        <Route path='/home/page/:page' element={
-          <Protected sesion={sesion} user={['ROLE_ADMIN', 'ROLE_USER']} redirectTo="/">
-            <Home />
-          </Protected>
-        } />
+          <Route path='/home' element={
+            <Protected sesion={sesion} user={['ROLE_ADMIN', 'ROLE_USER']} redirectTo="/">
+              <Home />
+            </Protected>
+          } />
 
-      </Routes>
-    </HashRouter>
+          <Route path='/home/page/:page' element={
+            <Protected sesion={sesion} user={['ROLE_ADMIN', 'ROLE_USER']} redirectTo="/">
+              <Home />
+            </Protected>
+          } />
+
+        </Routes>
+      </HashRouter>
     </>
   );
 }
