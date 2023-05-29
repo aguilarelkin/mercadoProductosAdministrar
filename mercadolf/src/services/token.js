@@ -1,6 +1,6 @@
 import { logoutAuth } from "../session/operation.login";
 import { enviroments } from "./enviroments";
-
+import * as CryptoJS from 'crypto-js';
 const API_LOGIN = enviroments.token_url;
 let _refresh;
 let _token;
@@ -29,7 +29,7 @@ const paramLogin = (code) => {
     datosLogin.set('client_id', enviroments.client_id)
     datosLogin.set('redirect_uri', enviroments.redirect_uri)
     datosLogin.set('scope', enviroments.scope)
-    datosLogin.set('code_verifier', enviroments.code_verifier)
+    datosLogin.set('code_verifier', getVerifier())
     datosLogin.set('code', code)
 
     return datosLogin.toString();
@@ -101,7 +101,7 @@ export const getRefreshAu = () => {
 }
 export const isAutenticatedAu = () => {
     let payload = obtenerDatoTokenA(getTokenAu());
-   // console.log(payload)
+    // console.log(payload)
     if (!isTokenExpiredA()) {
         if (payload !== null && payload.sub && payload.sub.length > 0) {
 
@@ -122,12 +122,12 @@ export const obtenerDatoTokenA = (token) => {
 
 const isTokenExpiredA = () => {
     let payload = obtenerDatoTokenA(getTokenAu());
-  
+
     let nowDate = new Date().getTime() / 1000;
-   
+
     if (payload !== null) {
         if (payload.exp < nowDate) {
-            
+
             return true;
         }
         return false;
@@ -142,6 +142,19 @@ export const hasRoleAu = () => {
         return payload.roless;
     }
     return [];
-
-
+}
+export const setVerifier = (code_verifier) => {
+    if (sessionStorage.getItem('code_verifier')) {
+        deleteVerifier();
+    }
+    const encrypted = CryptoJS.AES.encrypt(code_verifier, enviroments.secret_pkce);
+    sessionStorage.setItem('code_verifier', encrypted.toString());
+}
+export const getVerifier = () => {
+    const encrypted = localStorage.getItem('code_verifier');
+    const decrypted = CryptoJS.AES.decrypt(encrypted, enviroments.secret_pkce).toString(CryptoJS.enc.Utf8);
+    return decrypted;
+}
+export const deleteVerifier = () => {
+    localStorage.removeItem('code_verifier');
 }

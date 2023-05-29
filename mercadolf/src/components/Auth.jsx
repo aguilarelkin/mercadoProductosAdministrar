@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { guardarTokenAuth, loginToken } from "../services/token";
+import { deleteVerifier, guardarTokenAuth, loginToken } from "../services/token";
 import Navigation from "./auxiliarcomponent/Navigation";
 
 function Authorized() {
@@ -23,7 +23,7 @@ function Authorized() {
             json = await response.json()
             setToken(json.access_token)
             guardarTokenAuth(json.access_token, json.refresh_token);
-
+            deleteVerifier();
             console.log(json)
         }
     }
