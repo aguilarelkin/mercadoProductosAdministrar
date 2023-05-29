@@ -9,11 +9,15 @@ import { useEffect, useState } from 'react';
 import { isAutenticated, hasRole } from './auth/auth.authenticated';
 import { Protected } from './interceptor/Protected';
 import Authorized from './components/Auth';
+import User from './components/User';
+import Admin from './components/Admin';
+import { isAutenticatedAu } from './services/token';
 
 
 function App() {
   const [user, setUser] = useState("");
   const [sesion, setSesion] = useState(false);
+  const [sesiona, setSesiona] = useState(false);
   const [roles, setRoles] = useState([]);
   //const history = useNavigate();
   let _token;
@@ -22,6 +26,7 @@ function App() {
   useEffect(
     () => {
       setSesion(isAutenticated());
+      setSesiona(isAutenticatedAu());
       //  getRoles();
     }, []
   );
@@ -29,14 +34,32 @@ function App() {
 
   return (
     <>
-      <HashRouter>
+      <BrowserRouter>
         {//console.log(" ad " + sesion)
         }
         {//console.log(roles.includes('ROLE_ADMIN', 'ROLE_USER'))
         }
         < Routes>
-          <Route path='/authorized'  element={
-              <Authorized />
+          <Route path='/authorized' element={
+            <Authorized />
+          }
+          />
+
+          <Route path='/user' element={
+            <Protected sesion={sesiona} redirectTo="/">
+              <User />
+            </Protected>
+
+          }
+          />
+          <Route path='/admin' element={
+            <Protected sesion={sesiona} user={['ROLE_ADMIN']} redirectTo="/">
+              <Admin />
+            </Protected>} />
+
+
+          <Route path='/logout' element={
+            <Login />
           }
           />
 
@@ -64,7 +87,7 @@ function App() {
           } />
 
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </>
   );
 }

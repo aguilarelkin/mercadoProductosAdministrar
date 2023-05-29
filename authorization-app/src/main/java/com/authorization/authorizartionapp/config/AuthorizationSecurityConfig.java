@@ -7,12 +7,15 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,11 +36,16 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -56,6 +64,7 @@ public class AuthorizationSecurityConfig {
     @Order(1)
     public SecurityFilterChain authSecurityFilterChain(HttpSecurity http)
             throws Exception {
+        http.cors(Customizer.withDefaults());
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
 
@@ -80,6 +89,7 @@ public class AuthorizationSecurityConfig {
     @Order(2)
     public SecurityFilterChain webSecurityFilterChain(HttpSecurity http)
             throws Exception {
+        http.cors(Customizer.withDefaults());
         http
                 .authorizeHttpRequests((authorize) -> authorize
                         // .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
@@ -91,7 +101,8 @@ public class AuthorizationSecurityConfig {
                 .formLogin(formLogin ->
                         formLogin
                                 .loginPage("/login")
-                )
+                ).logout(lod->
+                        lod.logoutSuccessUrl("http://127.0.0.1:3000/logout"))
 /*                .oauth2Login(oauth2Login ->
                         oauth2Login
                                 .loginPage("/login")
@@ -190,5 +201,19 @@ public class AuthorizationSecurityConfig {
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
     }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","http://127.0.0.1:3000" ,"http://20.228.179.23:8080","http://localhost:8080","https://lemon-hill-02bded510.2.azurestaticapps.net"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
+
 
 }

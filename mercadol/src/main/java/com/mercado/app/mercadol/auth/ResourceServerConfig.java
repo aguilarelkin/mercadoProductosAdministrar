@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
@@ -31,6 +32,8 @@ public class ResourceServerConfig  {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
+        http.cors(Customizer.withDefaults());
+
         http
                 .authorizeHttpRequests(
                         (authorize) -> authorize
@@ -44,7 +47,7 @@ public class ResourceServerConfig  {
                                 .anyRequest().authenticated()
 
                 )
-                .cors().configurationSource(corsConfigurationSource()).and()
+
               ///  .requestMatchers(HttpMethod.POST, "/api/v1/cliente/**").permitAll()
               ///  .requestMatchers(HttpMethod.GET, "/api/v1/uploads/img/{nombreFoto:.+}").permitAll()
 
@@ -77,9 +80,10 @@ public class ResourceServerConfig  {
 
         return jwtAuthenticationConverter;
     }
+    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","http://127.0.0.1:5500" ,"http://20.228.179.23:8080","http://localhost:8080","https://lemon-hill-02bded510.2.azurestaticapps.net"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","http://127.0.0.1:3000" ,"http://20.228.179.23:8080","http://localhost:8080","https://lemon-hill-02bded510.2.azurestaticapps.net"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
@@ -89,11 +93,4 @@ public class ResourceServerConfig  {
         return source;
     }
 
-    @Bean
-    public FilterRegistrationBean<CorsFilter> corsFilter() {
-        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<CorsFilter>(new CorsFilter(corsConfigurationSource()));
-        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-
-        return bean;
-    }
 }
