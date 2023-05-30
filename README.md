@@ -5,7 +5,11 @@
 Tecnologias implementadas de React y Spring 
 
 - Sprind Data JPA
+- Lombook
 - Spring Security y Aouth2
+- Validaciones Front/Back
+- React Hooks
+- React Router
 
 ## Features
 
