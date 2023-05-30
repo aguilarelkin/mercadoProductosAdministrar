@@ -6,7 +6,7 @@ let _refresh;
 let _token;
 
 export const loginToken = async (code) => {
-
+  
     try {
         let response = await fetch(API_LOGIN, {
             method: "POST",
@@ -24,7 +24,6 @@ export const loginToken = async (code) => {
 }
 const paramLogin = (code) => {
     const datosLogin = new URLSearchParams();
-
     datosLogin.set('grant_type', enviroments.grant_type)
     datosLogin.set('client_id', enviroments.client_id)
     datosLogin.set('redirect_uri', enviroments.redirect_uri)
@@ -144,17 +143,21 @@ export const hasRoleAu = () => {
     return [];
 }
 export const setVerifier = (code_verifier) => {
+
     if (sessionStorage.getItem('code_verifier')) {
         deleteVerifier();
     }
     const encrypted = CryptoJS.AES.encrypt(code_verifier, enviroments.secret_pkce);
+ 
     sessionStorage.setItem('code_verifier', encrypted.toString());
 }
 export const getVerifier = () => {
-    const encrypted = localStorage.getItem('code_verifier');
+    const encrypted = sessionStorage.getItem('code_verifier');
+
     const decrypted = CryptoJS.AES.decrypt(encrypted, enviroments.secret_pkce).toString(CryptoJS.enc.Utf8);
+
     return decrypted;
 }
 export const deleteVerifier = () => {
-    localStorage.removeItem('code_verifier');
+    sessionStorage.removeItem('code_verifier');
 }

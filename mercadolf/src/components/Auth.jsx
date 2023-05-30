@@ -13,18 +13,20 @@ function Authorized() {
         setCode(window.location.href.split("code=")[1])
         if (code.length > 0) {
             login()
+           
         }
     }, [code])
 
     const login = async () => {
         let response = await loginToken(code);
         let json;
+  
         if (response.status === 200) {
             json = await response.json()
             setToken(json.access_token)
             guardarTokenAuth(json.access_token, json.refresh_token);
             deleteVerifier();
-            console.log(json)
+
         }
     }
 

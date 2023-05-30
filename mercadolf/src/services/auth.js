@@ -5,8 +5,11 @@ import * as CryptoJS from 'crypto-js';
 const CHARACTER = 'ABCDEFGHIJKLMNOPQRSTUVWZYZabcdefghijklmnopqrstuvwxyz0123456789'
 function oauth() {
     const authorize_uri = enviroments.authorize_uri;
+
     const code_verifier = generateCodeVerifier();
+   
     setVerifier(code_verifier);
+    
     const code_challenge = generateCodeChallenge(code_verifier);
 
     const params = {
@@ -21,7 +24,8 @@ function oauth() {
 
     const url =
         `${authorize_uri}client_id=${enviroments.client_id}&redirect_uri=${enviroments.redirect_uri}&scope=${enviroments.scope}&response_type=${enviroments.response_type}&response_mode=${enviroments.response_mode}&code_challenge_method=${enviroments.code_challenge_method}&code_challenge=${code_challenge}`
-    return url;
+
+        return url;
 }
 
 export default function generar() {
