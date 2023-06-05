@@ -2,12 +2,11 @@
 let _usuario;
 let _token;
 
-
 export const getToken = () => {
     if (_token != null) {
         return _token;
-    } else if (_token == null && sessionStorage.getItem('token') != null) {
-        _token = sessionStorage.getItem('token');
+    } else if (_token == null && sessionStorage.getItem('access_token') != null) {
+        _token = sessionStorage.getItem('access_token');
         return _token;
     }
     return null;

@@ -6,13 +6,17 @@ import { useNavigate } from "react-router-dom";
 
 export const logout = () => {
     setToken();
-    sessionStorage.clear();
-    Swal.fire("Login", 'Sessión finalizada', 'warning');
+    sessionStorage.removeItem('access_token');
+    sessionStorage.removeItem('refresh_token');
+    sessionStorage.removeItem('usuario');
+    window.location.href = enviroments.logout_url;
+  //  Swal.fire("Login", 'Sessión finalizada', 'warning');
 }
 export const logoutAuth = () => {
   
     setToken();
     sessionStorage.removeItem('access_token');
     sessionStorage.removeItem('refresh_token');
+    sessionStorage.removeItem('usuario');
     window.location.href = enviroments.logout_url;
 }

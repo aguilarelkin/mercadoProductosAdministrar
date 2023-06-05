@@ -1,3 +1,4 @@
+import { guardarUser } from "../auth/token.login";
 import { logoutAuth } from "../session/operation.login";
 import { enviroments } from "./enviroments";
 import * as CryptoJS from 'crypto-js';
@@ -43,6 +44,8 @@ export const guardarTokenAuth = (access, refresh) => {
     sessionStorage.setItem('access_token', access);
     sessionStorage.removeItem('refresh_token')
     sessionStorage.setItem('refresh_token', refresh);
+    sessionStorage.removeItem('usuario');
+    guardarUser(access);
 
 }
 
