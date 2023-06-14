@@ -1,4 +1,4 @@
-                                                                 # Aplicación Web
+# Aplicación Web
 ## Permite crear una cuenta e iniciar sesión. 
 ## Permite seleccionar productos para agregar al carrito de compras.
 ## Permite visualizar los productos del negocio.
