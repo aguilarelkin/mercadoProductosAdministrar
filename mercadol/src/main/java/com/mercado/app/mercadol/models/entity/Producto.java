@@ -18,7 +18,7 @@ public class Producto {
     private Long id;
 
     @NotEmpty(message = "no puede estar vacio")
-    @Size(min = 4, message = "Mínimo de cuatro números")
+    @Size(min = 3, message = "Mínimo de cuatro números")
     @Column(nullable = false, unique = true)
     private String nombre;
 

@@ -1,6 +1,7 @@
 
 let _usuario;
 let _token;
+let _refresh;
 
 export const getToken = () => {
     if (_token != null) {
@@ -22,7 +23,18 @@ export const getUsuario = () => {
     return null;
 }
 
-export const setToken=()=>{
+export const setToken = () => {
     _token = null;
     _usuario = null;
+    _refresh = null;
+}
+
+export const getRefresh = () => {
+    if (_refresh != null) {
+        return _refresh;
+    } else if (_refresh == null && sessionStorage.getItem('refresh_token') != null) {
+        _refresh = sessionStorage.getItem('refresh_token');
+        return _refresh;
+    }
+    return null;
 }

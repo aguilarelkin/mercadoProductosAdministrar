@@ -7,30 +7,20 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
@@ -39,7 +29,6 @@ import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -93,7 +82,9 @@ public class AuthorizationSecurityConfig {
         http
                 .authorizeHttpRequests((authorize) -> authorize
                         // .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
-                        .requestMatchers("/auth/**", "/client/**", "/login").permitAll()
+                        .requestMatchers(/*"/auth/**", "/client/**",*/ "/login").permitAll()//client manejado por el administrador de sistemas
+                        .requestMatchers("/images/**","/static/**","/**").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 // Form login handles the redirect to the login page from the
@@ -101,19 +92,19 @@ public class AuthorizationSecurityConfig {
                 .formLogin(formLogin ->
                         formLogin
                                 .loginPage("/login")
-                ).logout(lod->
+                ).logout(lod ->
                         lod.logoutSuccessUrl("http://127.0.0.1:3000/logout"))
 /*                .oauth2Login(oauth2Login ->
                         oauth2Login
                                 .loginPage("/login")
                                // .successHandler(authenticationSuccessHandler())
                 )*/;
-        http
-                // ...
+
+        /*http//agregar cuando no requiera csrf
                 .csrf((csrf) -> csrf
                         .ignoringRequestMatchers("/auth/**", "/client/**")
-                );
-//http.csrf().ignoringRequestMatchers("/auth/**");
+                );*/
+
         return http.build();
     }
 
@@ -127,7 +118,7 @@ public class AuthorizationSecurityConfig {
         return new InMemoryUserDetailsManager(userDetails);
     }*/
 
-    //SE COMENTA POR CILENTSERVICEIMPL-CLIENT
+    //Coemntar  CILENTSERVICEIMPL- CLIENT
 /*    @Bean
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
@@ -205,7 +196,7 @@ public class AuthorizationSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","http://127.0.0.1:3000" ,"http://20.228.179.23:8080","http://localhost:8080","https://lemon-hill-02bded510.2.azurestaticapps.net"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://127.0.0.1:3000", "http://20.228.179.23:8080", "http://localhost:8080", "https://lemon-hill-02bded510.2.azurestaticapps.net"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));

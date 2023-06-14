@@ -9,9 +9,8 @@ import { useEffect, useState } from 'react';
 import { isAutenticated, hasRole } from './auth/auth.authenticated';
 import { Protected } from './interceptor/Protected';
 import Authorized from './components/Auth';
-import User from './components/User';
-import Admin from './components/Admin';
-import { isAutenticatedAu } from './services/token';
+
+import Logout from './components/Logout';
 
 
 function App() {
@@ -26,7 +25,7 @@ function App() {
   useEffect(
     () => {
       setSesion(isAutenticated());
-      setSesiona(isAutenticatedAu());
+      //setSesiona(isAutenticatedAu());
       //  getRoles();
     }, []
   );
@@ -44,22 +43,8 @@ function App() {
             <Authorized />
           }
           />
-
-          <Route path='/user' element={
-            <Protected sesion={sesiona} redirectTo="/">
-              <User />
-            </Protected>
-
-          }
-          />
-          <Route path='/admin' element={
-            <Protected sesion={sesiona} user={['ROLE_ADMIN']} redirectTo="/">
-              <Admin />
-            </Protected>} />
-
-
           <Route path='/logout' element={
-            <Login />
+            <Logout />
           }
           />
 

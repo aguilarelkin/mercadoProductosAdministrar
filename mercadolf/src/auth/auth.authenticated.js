@@ -6,16 +6,11 @@ export const isAutenticated = () => {
 
     if (!isTokenExpired()) {
         if (payload !== null && payload.sub && payload.sub.length > 0) {
-         
             return true;
-           
         } else {
-          
             return false;
         }
-        
     } else {
-       
         logout();
     }
 }

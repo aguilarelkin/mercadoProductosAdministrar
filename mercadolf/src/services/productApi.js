@@ -1,23 +1,21 @@
-import { authorization, authorizationCreate, credentialsLogin, paramsLogin } from "./authorization";
+import { authorization, authorizationCreate, credentialsLogin, paramLogin } from "./authorization";
+import { enviroments } from "./enviroments";
 
 let url = process.env.REACT_APP_API;
 const API_SERVER = url + "/api/v1";
-const API_SERVER_LOGIN = url ;
-
+//const API_SERVER_LOGIN = url;
+const API_LOGIN = enviroments.token_url;
 
 export const findAllProductPage = async (page) => {
-
     try {
         let response = await fetch(API_SERVER + "/products/page/" + page, {
             method: "GET",
             headers: authorization()
         })
-
         return response;
     } catch (error) {
 
     }
-
 }
 
 export const findAllProduct = async () => {
@@ -85,10 +83,10 @@ export const updateProduct = async (id, datos) => {
     }
 }
 
-export const loginData = async (username, password) => {
+/*export const loginData = async (username, password) => {
     console.log(API_SERVER_LOGIN)
     try {
-        let response = await fetch(API_SERVER_LOGIN+"/oauth/token", {
+        let response = await fetch(API_SERVER_LOGIN + "/oauth/token", {
             method: "POST",
             body: paramsLogin(username, password),
             headers: {
@@ -96,8 +94,28 @@ export const loginData = async (username, password) => {
                 'Authorization': 'Basic ' + credentialsLogin()
             }
         })
-       
+
         return response;
+    } catch (error) {
+
+    }
+}*/
+
+export const loginToken = async (code) => {
+
+    try {
+        let response = await fetch(API_LOGIN, {
+            method: "POST",
+            body: paramLogin(code),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Basic ' + credentialsLogin()
+            }
+        })
+        console.log(paramLogin(response))
+
+        return response;
+
     } catch (error) {
 
     }

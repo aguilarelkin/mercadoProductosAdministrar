@@ -12,5 +12,6 @@ export const enviroments = {
     grant_type:'authorization_code',
     resource_url:'http://localhost:8080/resource',
     logout_url:'http://localhost:9000/logout',
-    secret_pkce:'secret'
+    secret_pkce:'secret',
+    login_url:'http://localhost:9000/login',
 }

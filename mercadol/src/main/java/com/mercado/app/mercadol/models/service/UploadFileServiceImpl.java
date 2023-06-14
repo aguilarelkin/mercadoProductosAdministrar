@@ -52,9 +52,9 @@ public class UploadFileServiceImpl implements IUploadService{
     public boolean eliminar(String nombreFoto) {
         if (nombreFoto != null && nombreFoto.length() > 0) {
 
-            //Path rutaFotoAnterior = Paths.get("/uploads").resolve(nombreFoto).toAbsolutePath();
+            Path rutaFotoAnterior = Paths.get("/uploads").resolve(nombreFoto).toAbsolutePath();
             //Path rutaFotoAnterior = Paths.get("E:/Proyectos/mercadolibreProductos/uploads").resolve(nombreFoto).toAbsolutePath();
-            Path rutaFotoAnterior = Paths.get("/home/mercadosshh/uploads").resolve(nombreFoto).toAbsolutePath();
+           // Path rutaFotoAnterior = Paths.get("/home/mercadosshh/uploads").resolve(nombreFoto).toAbsolutePath();
 
             File archivoFotoAnterior = rutaFotoAnterior.toFile();
             if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
@@ -69,8 +69,8 @@ public class UploadFileServiceImpl implements IUploadService{
     public Path getPath(String nombreFoto) {
         // "/home/mercadosshh/uploads"
 
-       // return Paths.get("uploads").resolve(nombreFoto). toAbsolutePath();
+        return Paths.get("uploads").resolve(nombreFoto). toAbsolutePath();
        // return Paths.get("E:/Proyectos/mercadolibreProductos/uploads").resolve(nombreFoto). toAbsolutePath();
-        return Paths.get("/home/mercadosshh/uploads").resolve(nombreFoto). toAbsolutePath();
+       // return Paths.get("/home/mercadosshh/uploads").resolve(nombreFoto). toAbsolutePath();
     }
 }

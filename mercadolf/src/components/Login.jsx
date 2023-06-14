@@ -6,6 +6,8 @@ import { getUsuario } from "../auth/auth.token.user";
 import { guardarToken, guardarUser } from "../auth/token.login";
 import { loginData } from "../services/productApi";
 import Navigation from "./auxiliarcomponent/Navigation";
+import { logout } from "../session/operation.login";
+import generar from "../services/auth";
 
 function Login() {
 
@@ -19,58 +21,67 @@ function Login() {
         () => {
             if (isAutenticated()) {
                 setSesion(isAutenticated());
-                Swal.fire('Login', `${getUsuario().username} ya estás autenticado`, 'info')
+                // Swal.fire('Login', `${getUsuario().username} ya estás autenticado`, 'info')
                 history("/home")
+            } else {
+                generar();
             };
         }, []
     );
 
     const login = async (event) => {
-        event.preventDefault();
-
-        if (username === "" || password === "") {
-            Swal.fire('Datos requeridos', 'Ingresar campos vacios', 'info')
-            return;
-
-        } else {
-            try {
-                let response = await loginData(username, password);
-
-                let json;
-                if (response.status === 200) {
-                    json = await response.json()
-                    guardarUser(json.access_token);
-                    guardarToken(json.access_token);
-                    setMensaje(json);
-                 
-                    Swal.fire('Bienvenido', `${getUsuario().username}`, 'success')
-                    history("/home")
-                    return json;
-                }
-                if (response.status === 500) {
-                    json = await response.json()
-                    setMensaje(json);
-                    return json;
-                }
-                if (response.status === 400) {
-                    json = await response.json()
-                    setMensaje(json);
-                    Swal.fire('Datos incorrectos', 'Usuario o contraseña incorrectos', 'warning')
-                    return json;
-                }
-
-                if (response.status === 401 || response.status === 403) {
-                    history("/")
-                }
-            } catch (error) {
-
-            }
-        }
-        //33:14
+        /*
+          event.preventDefault();
+  
+          if (username === "" || password === "") {
+              Swal.fire('Datos requeridos', 'Ingresar campos vacios', 'info')
+              return;
+  
+          } else {
+              try {
+                  let response = await loginData(username, password);
+  
+                  let json;
+                  json = await response.json()
+  
+                  console.log(json)
+  
+                  if (response.status === 200) {
+                      json = await response.json()
+                      guardarUser(json.access_token);
+                      guardarToken(json.access_token);
+                      setMensaje(json);
+                   
+                      Swal.fire('Bienvenido', `${getUsuario().username}`, 'success')
+                      history("/home")
+                      return json;
+                  }
+                  if (response.status === 500) {
+                      json = await response.json()
+                      setMensaje(json);
+                      return json;
+                  }
+                  if (response.status === 400) {
+                      json = await response.json()
+                      setMensaje(json);
+                      Swal.fire('Datos incorrectos', 'Usuario o contraseña incorrectos', 'warning')
+                      return json;
+                  }
+  
+                  if (response.status === 401 || response.status === 403) {
+                      history("/")
+                  }
+              } catch (error) {
+  
+              }
+          }
+          //33:14
+          */
     }
 
     return (
         <>
+            {/*
             {sesion}
             <Navigation sesion={sesion} roles={sesion ? hasRole() : []} />
 
@@ -94,10 +105,11 @@ function Login() {
                         </div>
 
                         <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</button>
-
+                        <input type="hidden"    name="_csrf"value="-li7b8QC61od916GSFYhQ8rJ7RXakteIuiudZ-rSE9y9anPQzmvYV_Iw3WkwkjiyfnsVIP6rwHS8q7WliUqqBIuxJOmFCUe0"/>
                     </form>
                 </div>
             </center>
+    */}
             {/*
          <form method="post" onSubmit={login}>
                 <div>

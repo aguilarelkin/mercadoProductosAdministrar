@@ -1,0 +1,13 @@
+#bg{
+text-align: center;
+    margin-top: 78px;
+    background-color: papayawhip;
+    margin-left: 154px;
+    margin-right: 154px;
+    padding: 45px;
+    text-decoration-line: underline;
+    text-transform: uppercase;
+    font-size: -webkit-xxx-large;
+    font-family: monospace;
+    border-right: outset;
+}

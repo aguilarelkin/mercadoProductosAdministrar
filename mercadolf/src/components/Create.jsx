@@ -43,8 +43,6 @@ function Create() {
                 }
             }
 
-
-
         }, [sesion, dato]
     );
 
@@ -148,9 +146,6 @@ function Create() {
             }
 
         }
-
-
-
     }
 
     const enviarImagen = async (event) => {
@@ -367,13 +362,9 @@ function Create() {
 
                     {
                         !control ?
-
-
                             <>
-
                                 <center>
                                     <div className="container  text-left lg:px-96 lg:w-4/5 sm:p-6 md:p-8 ">
-
                                         <form onSubmit={enviar} >
                                             {
                                                 dato !== 'new' ?
@@ -471,24 +462,16 @@ function Create() {
                         id !== "" ?
                             <center>
                                 <div className="container  text-left lg:px-96 lg:w-4/5 sm:p-6 md:p-8">
-
                                     <form onSubmit={enviarImagen}>
-
                                         <div className="h-48 mt-12 bg-no-repeat flex justify-center bg-right">
-
-                                            <img src={"http://20.228.179.23:8080/api/v1/uploads/img/" + imagen} alt="" />
-
+                                            <img src={"http://localhost:8080/api/v1/uploads/img/" + imagen} alt="" />
                                         </div>
-
                                         <label class="block mb-2 text-sm font-medium text-center text-gray-900 dark:text-white" for="file_input">Subir archivo</label>
                                         <input onChange={(e) => { seleccionarFoto(e) }} class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" />
-
                                         <div className="m-6 text-center">
                                             <button class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Enviar</button>
                                         </div>
-
                                     </form>
-
                                     <div>
                                         <Progress percent={progres} status="active" />
                                     </div>
