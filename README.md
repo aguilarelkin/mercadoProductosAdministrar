@@ -2,12 +2,12 @@
 
 ## Permite seleccionar producto para actualizar datos.
 ## Permite visualizar los productos del negocio.
-## Permite agregar neuvos productos y eliminarlos.
+## Permite agregar nuevos productos y eliminarlos.
 
 ## Desarrollado con React y Spring
 
 
-Tecnologias implementadas de React y Spring 
+Tecnologías implementadas de React y Spring 
 
 - Sprind Data JPA
 - Lombook
