@@ -1,8 +1,8 @@
 # Aplicación Web
-## Permite crear una cuenta e iniciar sesión. 
-## Permite seleccionar productos para agregar al carrito de compras.
+
+## Permite seleccionar producto para actualizar datos.
 ## Permite visualizar los productos del negocio.
-## Permite ver el carrito de compras y finalizar la compra.
+## Permite agregar neuvos productos y eliminarlos.
 
 ## Desarrollado con React y Spring
 
@@ -19,9 +19,8 @@ Tecnologias implementadas de React y Spring
 
 ## Features
 
-- Valida cada una de las funciones que se procesan.
-- Requiere ingreso de credenciales para realizar compra de productos.
-- Permite agregar o eliminar un productos.
+- Permite agregar, actualizar y eliminar productos.
+- Requiere ingreso de credenciales para realizar operaciones CRUD.
 
 
 ## Aplication
