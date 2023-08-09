@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,13 +36,14 @@ public class ProductoController {
     @Autowired
     private IUploadService uploadService;
 
+    @PreAuthorize("hasAuthority({'ROLE_ADMIN', 'ROLE_USER'})")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/products/page/{page}")
     public Page<Producto> getProductoPage(@PathVariable Integer page) {
 
         return productoService.findAllProduct(PageRequest.of(page, 2));
     }
-
+    @PreAuthorize("hasAuthority({'ROLE_ADMIN', 'ROLE_USER'})")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/products")
     public ResponseEntity<?> getProductos() {
@@ -67,7 +69,7 @@ public class ProductoController {
 
         return new ResponseEntity<List<Producto>>(producto, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasAuthority({'ROLE_ADMIN'})")
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/product/{id}")
     public ResponseEntity<?> getProduct(@PathVariable Long id) {
@@ -89,7 +91,7 @@ public class ProductoController {
 
         return new ResponseEntity<Optional<Producto>>(producto, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasAuthority({'ROLE_ADMIN'})")
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/product/p/{nombre}")
     public ResponseEntity<?> getProductName(@PathVariable String nombre) {
@@ -111,7 +113,7 @@ public class ProductoController {
 
         return new ResponseEntity<Producto>(producto, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasAuthority({'ROLE_ADMIN'})")
     @Secured({"ROLE_ADMIN"})
     @PostMapping("/product/c")
     public ResponseEntity<?> createProduct(@Valid @RequestBody Producto producto, BindingResult result) {
@@ -140,7 +142,7 @@ public class ProductoController {
 
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasAuthority({'ROLE_ADMIN'})")
     @Secured({"ROLE_ADMIN"})
     @PutMapping("/product/u/{id}")
     public ResponseEntity<?> updateProduct(@Valid @RequestBody Producto producto, BindingResult result, @PathVariable Long id) {
@@ -184,7 +186,7 @@ public class ProductoController {
 
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasAuthority({'ROLE_ADMIN'})")
     @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/product/d/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
@@ -209,7 +211,7 @@ public class ProductoController {
 
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasAuthority({'ROLE_ADMIN'})")
     @Secured({"ROLE_ADMIN"})
     @PostMapping("/product/upload")
     public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
